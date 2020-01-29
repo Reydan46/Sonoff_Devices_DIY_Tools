@@ -235,6 +235,7 @@ class ThreadForQT(QThread):
         data["sequence"] = str(int(time.time()))
         sub_id = info["sub_id"]
         data["deviceid"] = sub_id
+        data["deviceid"] = sub_id
         if out_sta:
             data["data"] = {"switch": "on"}
         else:

@@ -98,8 +98,8 @@ class MainWindow(QMainWindow):
         if len(self.select_name) <= 0:
             QMessageBox.information(
                     self,
-                    "Sending failed ",
-                    "No device selected yet！",
+                    "Ошибка отправки",
+                    "Не выбрано устройство!",
                     QMessageBox.Yes,
                     QMessageBox.Yes)
             return
@@ -175,8 +175,8 @@ class MainWindow(QMainWindow):
         if len(self.select_name) <= 0:
             QMessageBox.information(
                     self,
-                    "Sending failed",
-                    "No device selected yet！",
+                    "Ошибка отправки",
+                    "Не выбрано устройство!",
                     QMessageBox.Yes,
                     QMessageBox.Yes)
             return
@@ -442,8 +442,8 @@ class MainWindow(QMainWindow):
         if len(self.select_name) <= 0:
             QMessageBox.information(
                     self,
-                    "Sending failed",
-                    "No device selected yet！",
+                    "Ошибка отправки",
+                    "Не выбрано устройство!",
                     QMessageBox.Yes,
                     QMessageBox.Yes)
             return
@@ -456,14 +456,14 @@ class MainWindow(QMainWindow):
         self.result_ui = True
         if self.thread_number <= 0:
             self.thread_number += 1
-            self.myThread = ThreadForQT(parent=None, **dicta)
+            self.myThread = ThreadForQT(**dicta)
             # Sets the signal tube correlation function
             self.myThread.run_test_Thread.connect(self.result_to_ui)
             self.myThread.start()
         else:
             QMessageBox.information(
                     self,
-                    "error",
+                    "Error",
                     "There is data being sent, please do not operate frequently！",
                     QMessageBox.Yes,
                     QMessageBox.Yes)

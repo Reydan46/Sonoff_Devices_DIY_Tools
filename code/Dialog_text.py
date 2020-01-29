@@ -491,7 +491,9 @@ class RootDialog(QDialog):
         print(self.all_sub)
         if len(self.all_sub) <= 0:
             QMessageBox.critical(
-                    "Unable to find device, please exit retry", 10000)
+                    self,
+                    "Ошибка",
+                    "Нет устройства")
             print("Unable to find device, please exit retry")
         else:
             for x in self.all_sub:
@@ -690,7 +692,7 @@ class RootDialog(QDialog):
         command_vrg["sever_port"] = sever_port
         vrg["command_vrg"] = command_vrg
         dicta["command_vrg"] = vrg
-        self.myThread = ThreadForQT(parent=None, **dicta)
+        self.myThread = ThreadForQT(**dicta)
         self.myThread.run_test_Thread.connect(self.do_unlock_result)
         self.myThread.start()
 
