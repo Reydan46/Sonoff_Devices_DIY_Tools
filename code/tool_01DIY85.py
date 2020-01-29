@@ -6,15 +6,15 @@
                     Parses the user's input(lan_ewlink_api and Dialog_text).
 """
 
-
 import sys
-import time
+
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from tool_01DIY85_ui import *
-from mdns import mDNS_BrowserThread, MyListener
-from lan_ewlink_api import *
+
 from Dialog_text import RootDialog, SetTimeDialog, WIFIDialog, resultDialog
+from lan_ewlink_api import *
+from mdns import mDNS_BrowserThread
+from tool_01DIY85_ui import *
 
 
 class MainWindow(QMainWindow):
@@ -37,8 +37,7 @@ class MainWindow(QMainWindow):
         # The name of the device selected by the user
         self.select_name = []
         # One thread is dedicated to MDNS information
-        self.BrowserThread = mDNS_BrowserThread(
-            parent=None, func_task=self.mDNS_info_sta)
+        self.BrowserThread = mDNS_BrowserThread(func_task=self.mDNS_info_sta)
         # Sets the signal tube correlation function
         self.BrowserThread.get_sub_new.connect(self.thread_deal_mDNS_new)
         self.BrowserThread.start()
@@ -62,16 +61,16 @@ class MainWindow(QMainWindow):
         self.ui.pB_info.clicked.connect(self.get_info)
         self.ui.pB_signal.clicked.connect(self.get_signal)
 
-    def closeEvent(self,event):
+    def closeEvent(self, event):
         print("clean all")
         event.accept()
-        os._exit(0)
+        sys.exit(0)
 
     def get_signal(self):
-        self.run_detection(command_num=7,b="null")
+        self.run_detection(command_num=7, b="null")
 
     def get_info(self):
-        self.run_detection(command_num=8,b="null")
+        self.run_detection(command_num=8, b="null")
 
     def set_ON(self):
         """"Sets the device selected by the user to on"""
@@ -98,11 +97,11 @@ class MainWindow(QMainWindow):
         # Check if the user has selected the device
         if len(self.select_name) <= 0:
             QMessageBox.information(
-                self,
-                "Sending failed ",
-                "No device selected yet！",
-                QMessageBox.Yes,
-                QMessageBox.Yes)
+                    self,
+                    "Sending failed ",
+                    "No device selected yet！",
+                    QMessageBox.Yes,
+                    QMessageBox.Yes)
             return
         vrg = {}
         # The pop-up dialog box waits for user input
@@ -115,7 +114,7 @@ class MainWindow(QMainWindow):
                 print("all_time", all_time)
                 if all_time == 0:
                     QMessageBox.critical(
-                        self, "set time fail", "input time error!")
+                            self, "set time fail", "input time error!")
                     return
                 vrg["pulseWidth"] = all_time
                 vrg["pulse"] = "on"
@@ -150,7 +149,7 @@ class MainWindow(QMainWindow):
             sta = False
         #  The pop-up dialog box waits for user input
         set_time_dialog = SetTimeDialog(
-            min=min_time, sec=sec_time, pulse=sta, sec_sta=sec_sta)
+                min=min_time, sec=sec_time, pulse=sta, sec_sta=sec_sta)
         set_time_dialog.show()
         ret = set_time_dialog.exec_()
         if ret != 0:
@@ -158,7 +157,7 @@ class MainWindow(QMainWindow):
             print("all_time", all_time)
             if all_time == 0:
                 QMessageBox.critical(
-                    self, "set time fail", "input time error!")
+                        self, "set time fail", "input time error!")
                 return
             if set_time_dialog.set_sta:
                 vrg["pulseWidth"] = all_time
@@ -175,11 +174,11 @@ class MainWindow(QMainWindow):
         # Check if the user has selected the device
         if len(self.select_name) <= 0:
             QMessageBox.information(
-                self,
-                "Sending failed",
-                "No device selected yet！",
-                QMessageBox.Yes,
-                QMessageBox.Yes)
+                    self,
+                    "Sending failed",
+                    "No device selected yet！",
+                    QMessageBox.Yes,
+                    QMessageBox.Yes)
             return
         #  The pop-up dialog box waits for user input
         dialog = WIFIDialog()
@@ -283,16 +282,16 @@ class MainWindow(QMainWindow):
                     if cur_sub["select_state"]:
                         cur_sub["select_state"] = False
                         self.ui.tableWidget.item(
-                            b, 0).setBackgroundColor(
-                            QColor(
-                                255, 255, 255))
+                                b, 0).setBackgroundColor(
+                                QColor(
+                                        255, 255, 255))
                         self.select_name.remove(x)
                     else:
                         cur_sub["select_state"] = True
                         self.ui.tableWidget.item(
-                            b, 0).setBackgroundColor(
-                            QColor(
-                                0, 0, 255))
+                                b, 0).setBackgroundColor(
+                                QColor(
+                                        0, 0, 255))
                         self.select_name.append(x)
                 elif c == 1:
                     self.change_usr_name(x)
@@ -365,46 +364,46 @@ class MainWindow(QMainWindow):
             # Fill in the "Inching" button
             b_inch = QTableWidgetItem("Inching")
             self.ui.tableWidget.setItem(line_num, 7, b_inch)
-			# rssi
-            newresultBItem=QTableWidgetItem(str(sub_sta_info["rssi"]))
-            self.ui.tableWidget.setItem(line_num,8,newresultBItem)
+            # rssi
+            newresultBItem = QTableWidgetItem(str(sub_sta_info["rssi"]))
+            self.ui.tableWidget.setItem(line_num, 8, newresultBItem)
             # Color according to the device information
             if select_state:
                 self.ui.tableWidget.item(
-                    line_num, 0).setBackgroundColor(
-                    QColor(
-                        0, 0, 255))
+                        line_num, 0).setBackgroundColor(
+                        QColor(
+                                0, 0, 255))
             else:
                 self.ui.tableWidget.item(
-                    line_num, 0).setBackgroundColor(
-                    QColor(
-                        255, 255, 255))
+                        line_num, 0).setBackgroundColor(
+                        QColor(
+                                255, 255, 255))
 
             if sub_sta_info["switch"]:
                 self.ui.tableWidget.item(
-                    line_num, 2).setBackgroundColor(
-                    QColor(
-                        255, 0, 255))
+                        line_num, 2).setBackgroundColor(
+                        QColor(
+                                255, 0, 255))
             else:
                 self.ui.tableWidget.item(
-                    line_num, 3).setBackgroundColor(
-                    QColor(
-                        0, 255, 255))
+                        line_num, 3).setBackgroundColor(
+                        QColor(
+                                0, 255, 255))
             if sub_sta_info["startup"] is "on":
                 self.ui.tableWidget.item(
-                    line_num, 4).setBackgroundColor(
-                    QColor(
-                        0, 128, 0))
+                        line_num, 4).setBackgroundColor(
+                        QColor(
+                                0, 128, 0))
             elif sub_sta_info["startup"] is "off":
                 self.ui.tableWidget.item(
-                    line_num, 5).setBackgroundColor(
-                    QColor(
-                        0, 128, 0))
+                        line_num, 5).setBackgroundColor(
+                        QColor(
+                                0, 128, 0))
             elif sub_sta_info["startup"] is "stay":
                 self.ui.tableWidget.item(
-                    line_num, 6).setBackgroundColor(
-                    QColor(
-                        0, 128, 0))
+                        line_num, 6).setBackgroundColor(
+                        QColor(
+                                0, 128, 0))
         self.ui.tableWidget.horizontalHeader().setVisible(False)
         self.ui.tableWidget.verticalHeader().setVisible(False)
         # Sets the table not to be edited
@@ -430,8 +429,7 @@ class MainWindow(QMainWindow):
             return
         result_list = result_str.split("\n")
         print("The return value is received：", result_list)
-		self.send_result[result_list[0]]=eval(result_list[1])
-
+        self.send_result[result_list[0]] = eval(result_list[1])
 
     def run_detection(self, command_num, **comand_vrg):
         """
@@ -443,11 +441,11 @@ class MainWindow(QMainWindow):
         """
         if len(self.select_name) <= 0:
             QMessageBox.information(
-                self,
-                "Sending failed",
-                "No device selected yet！",
-                QMessageBox.Yes,
-                QMessageBox.Yes)
+                    self,
+                    "Sending failed",
+                    "No device selected yet！",
+                    QMessageBox.Yes,
+                    QMessageBox.Yes)
             return
         dicta = {
             "info": self.mDNS_info_sta,
@@ -464,11 +462,11 @@ class MainWindow(QMainWindow):
             self.myThread.start()
         else:
             QMessageBox.information(
-                self,
-                "error",
-                "There is data being sent, please do not operate frequently！",
-                QMessageBox.Yes,
-                QMessageBox.Yes)
+                    self,
+                    "error",
+                    "There is data being sent, please do not operate frequently！",
+                    QMessageBox.Yes,
+                    QMessageBox.Yes)
 
     def run_a_dev(self, sub_id, command_num, **comand_vrg):
         """
@@ -494,11 +492,11 @@ class MainWindow(QMainWindow):
             self.myThread.start()
         else:
             QMessageBox.information(
-                self,
-                "error",
-                "There is data being sent, please do not operate frequently！",
-                QMessageBox.Yes,
-                QMessageBox.Yes)
+                    self,
+                    "error",
+                    "There is data being sent, please do not operate frequently！",
+                    QMessageBox.Yes,
+                    QMessageBox.Yes)
 
     def check_all(self):
         """Select all handler functions"""
@@ -537,8 +535,8 @@ class MainWindow(QMainWindow):
         """
 
         cur_log = time.strftime(
-            "%Y-%m-%d %H:%M:%S",
-            time.localtime()) + log_data + "\r\n"
+                "%Y-%m-%d %H:%M:%S",
+                time.localtime()) + log_data + "\r\n"
         try:
             with open("UI_log.txt", "a+") as log:
                 log.write(cur_log)

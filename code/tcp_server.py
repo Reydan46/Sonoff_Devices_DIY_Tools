@@ -4,8 +4,9 @@
     class：
         SeverThreadForQT:(Based on QThread)
 """
-from socket import *
 import json
+from socket import *
+
 from PySide2.QtCore import *
 
 
@@ -85,11 +86,11 @@ class SeverThreadForQT(QThread):
         print("HEAD：", len(self.img), "ALL LEN：", str(self.bin_len))
         # The header that assembles the HTTP data
         send_data = 'HTTP/1.1 206 Partial Content\r\n' + \
-            'Content-type: application/octet-stream\r\n'
+                    'Content-type: application/octet-stream\r\n'
         send_Range = "bytes=" + \
-            str(all_read[0]) + "-" + str(all_read[1]) + "/" + str(self.bin_len)
+                     str(all_read[0]) + "-" + str(all_read[1]) + "/" + str(self.bin_len)
         send_data += 'Content-Length: ' + \
-            str(len(self.img)) + '\r\n' + 'Content-Range: ' + send_Range + "\r\n\r\n"
+                     str(len(self.img)) + '\r\n' + 'Content-Range: ' + send_Range + "\r\n\r\n"
         self.ckeck_finsh(all_read[1])
         self.my_send_head(send_data)
         print("send_data", str(send_data))
@@ -100,7 +101,7 @@ class SeverThreadForQT(QThread):
         self.ota_state_Thread.emit(get_new)
 
     def ckeck_finsh(self, end_seek):
-        if(self.bin_len - 1) == end_seek:
+        if (self.bin_len - 1) == end_seek:
             self.send_over_flg = True
         else:
             self.send_over_flg = False

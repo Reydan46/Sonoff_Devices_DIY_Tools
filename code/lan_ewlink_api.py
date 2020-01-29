@@ -4,10 +4,10 @@
     class:
         ThreadForQT(Classes based on QT threads)
 """
-import time
-import time
-import requests
 import json
+import time
+
+import requests
 from PySide2.QtCore import *
 
 
@@ -59,8 +59,8 @@ class Http_API(object):
         :return:None
         """
         cur_log = time.strftime(
-            "%Y-%m-%d %H:%M:%S",
-            time.localtime()) + log_data + "\r\n"
+                "%Y-%m-%d %H:%M:%S",
+                time.localtime()) + log_data + "\r\n"
         try:
             with open("log.txt", "a+") as log:
                 log.write(cur_log)
@@ -112,7 +112,7 @@ class ThreadForQT(QThread):
         self.all_dev_id = func_task["select_name_list"]
         print(self.all_dev_id)
         # Gets the command to execute
-        self. command_num = func_task["command_num"]
+        self.command_num = func_task["command_num"]
         # Parameters required to execute the command
         vrg = func_task["command_vrg"]
         if "command_vrg" in vrg:
@@ -146,69 +146,72 @@ class ThreadForQT(QThread):
         port = cur_sub_info["port"]
         ip = cur_sub_info["ip"]
         ret = 999
-        if self. command_num == 0:
+        if self.command_num == 0:
             # 0 command（"ON"）
             ret = self.set_OUT(OUT=True, ip=ip, port=port, sub_id=sub_id)
-        elif self. command_num == 1:
+        elif self.command_num == 1:
             # 1 command（"OFF"）
             ret = self.set_OUT(OUT=False, ip=ip, port=port, sub_id=sub_id)
-        elif self. command_num == 2:
+        elif self.command_num == 2:
             # 2 command（"Power-on-state-KEEP"）
             ret = self.set_power_up_state(
-                state=2, ip=ip, port=port, sub_id=sub_id)
-        elif self. command_num == 3:
+                    state=2, ip=ip, port=port, sub_id=sub_id)
+        elif self.command_num == 3:
             # 3 command（"Power-on-state-ON"）
             ret = self.set_power_up_state(
-                state=1, ip=ip, port=port, sub_id=sub_id)
-        elif self. command_num == 4:
+                    state=1, ip=ip, port=port, sub_id=sub_id)
+        elif self.command_num == 4:
             # 4 command（"Power-on-state-OFF"）
             ret = self.set_power_up_state(
-                state=0, ip=ip, port=port, sub_id=sub_id)
-        elif self. command_num == 5:
+                    state=0, ip=ip, port=port, sub_id=sub_id)
+        elif self.command_num == 5:
             # 5 command（"SET INCH"）
             ret = self.set_point_sewidth(
-                pulseWidth=self. command_vrg["pulseWidth"],
-                pulse=self. command_vrg["pulse"],
-                ip=ip,
-                port=port,
-                sub_id=sub_id)
-        elif self. command_num == 6:
+                    pulseWidth=self.command_vrg["pulseWidth"],
+                    pulse=self.command_vrg["pulse"],
+                    ip=ip,
+                    port=port,
+                    sub_id=sub_id)
+        elif self.command_num == 6:
             # 6 command（"Change SSID"）
             ret = self.set_wifi(
-                ssid=self. command_vrg["SSID"],
-                password=self. command_vrg["password"],
-                ip=ip,
-                port=port,
-                sub_id=sub_id)
-        elif self. command_num == 7:
+                    ssid=self.command_vrg["SSID"],
+                    password=self.command_vrg["password"],
+                    ip=ip,
+                    port=port,
+                    sub_id=sub_id)
+        elif self.command_num == 7:
             # 7 command（"ROOT"）
-            ret=self.get_signal_intensity(ip=ip,port=port,sub_id=sub_id)
-		elif self. command_num==8:
-			#8命令（获取设备状态信息）
-			ret=self.get_dev_info_api(ip=ip,port=port,sub_id=sub_id)
-		elif self. command_num==9:
-			#9命令（解锁ota）
-			print("self.command_vrg==",self.command_vrg)
-			ret=self.set_unlock(ip=ip,port=port,sub_id=sub_id)
-			print("ret",ret)
-			if ret['error'] == 0:
-			#10命令（发送升级信息）
-				 ret=self.set_ota_flash(sha256sum= self.command_vrg["sha256sum"], sever_ip= self.command_vrg["sever_ip"], sever_port=self. command_vrg["sever_port"], ip=ip, port=port, sub_id=sub_id)
+            ret = self.get_signal_intensity(ip=ip, port=port, sub_id=sub_id)
+        elif self.command_num == 8:
+            # 8命令（获取设备状态信息）
+            ret = self.get_dev_info_api(ip=ip, port=port, sub_id=sub_id)
+        elif self.command_num == 9:
+            # 9命令（解锁ota）
+            print("self.command_vrg==", self.command_vrg)
+            ret = self.set_unlock(ip=ip, port=port, sub_id=sub_id)
+            print("ret", ret)
+            if ret['error'] == 0:
+                # 10命令（发送升级信息）
+                ret = self.set_ota_flash(sha256sum=self.command_vrg["sha256sum"], sever_ip=self.command_vrg["sever_ip"],
+                                         sever_port=self.command_vrg["sever_port"], ip=ip, port=port, sub_id=sub_id)
         return ret
-		
+
     def send_data(self, send_url, send_data):
-		"""
-		send data to device by HTTP PORT
-		"""
-		#try:
-			print("send：",send_url,str(send_data))
-			response =self.ht.postRequest(send_url,send_data)
-			print("response：",str(response))
-			if response["result"]:
-				return json.loads(response["text"])
-			else:
-				return 1
-					
+        """
+        send data to device by HTTP PORT
+        """
+        try:
+            print("send：", send_url, str(send_data))
+            response = self.ht.postRequest(send_url, send_data)
+            print("response：", str(response))
+            if response["result"]:
+                return json.loads(response["text"])
+            else:
+                return 1
+        except:
+            pass
+
     def set_OUT(self, **info):
         """
         Set the lights on and off
@@ -227,15 +230,15 @@ class ThreadForQT(QThread):
         data = {}
         # 1. Assembly url.
         url = "http://" + info["ip"] + ":" + \
-            str(info["port"]) + "/zeroconf/switch"
+              str(info["port"]) + "/zeroconf/switch"
         # 2. Assemble data.
         data["sequence"] = str(int(time.time()))
         sub_id = info["sub_id"]
         data["deviceid"] = sub_id
-		if out_sta:
-			data["data"]=	{"switch": "on"}
-		else:
-			data["data"]=	{"switch": "off"}
+        if out_sta:
+            data["data"] = {"switch": "on"}
+        else:
+            data["data"] = {"switch": "off"}
         # 3. Call Http_API(postRequest) to send.
         return self.send_data(send_url=url, send_data=data)
 
@@ -257,17 +260,17 @@ class ThreadForQT(QThread):
         data = {}
         # 1. Assembly url.
         url = "http://" + info["ip"] + ":" + \
-            str(info["port"]) + "/zeroconf/startup"
+              str(info["port"]) + "/zeroconf/startup"
         # 2. Assemble data.
         data["sequence"] = str(int(time.time()))
         sub_id = info["sub_id"]
         data["deviceid"] = sub_id
-		if(state== 0):
-			data["data"]=	{"startup": "off"}
-		elif (state== 1):
-			data["data"]=	{"startup": "on"}
-		elif (state== 2):
-			data["data"]=	{"startup": "stay"}
+        if (state == 0):
+            data["data"] = {"startup": "off"}
+        elif (state == 1):
+            data["data"] = {"startup": "on"}
+        elif (state == 2):
+            data["data"] = {"startup": "stay"}
         # 3. Call Http_API(postRequest) to send.
         return self.send_data(send_url=url, send_data=data)
 
@@ -287,12 +290,12 @@ class ThreadForQT(QThread):
         data = {}
         # 1. Assembly url.
         url = "http://" + info["ip"] + ":" + \
-            str(info["port"]) + "/zeroconf/signal_strength"
+              str(info["port"]) + "/zeroconf/signal_strength"
         # 2. Assemble data.
         data["sequence"] = str(int(time.time()))
         sub_id = info["sub_id"]
         data["deviceid"] = sub_id
-        data["data"] = { }
+        data["data"] = {}
         # 3. Call Http_API(postRequest) to send.
         return self.send_data(send_url=url, send_data=data)
 
@@ -316,12 +319,12 @@ class ThreadForQT(QThread):
         data = {}
         # 1. Assembly url.
         url = "http://" + info["ip"] + ":" + \
-            str(info["port"]) + "/zeroconf/pulse"
+              str(info["port"]) + "/zeroconf/pulse"
         # 2. Assemble data.
         data["sequence"] = str(int(time.time()))
         sub_id = info["sub_id"]
         data["deviceid"] = sub_id
-        data["data"]=	{"pulse": pulse,"pulseWidth": pulseWidth}
+        data["data"] = {"pulse": pulse, "pulseWidth": pulseWidth}
         # 3. Call Http_API(postRequest) to send.
         return self.send_data(send_url=url, send_data=data)
 
@@ -345,12 +348,12 @@ class ThreadForQT(QThread):
         data = {}
         # 1. Assembly url.
         url = "http://" + info["ip"] + ":" + \
-            str(info["port"]) + "/zeroconf/wifi"
+              str(info["port"]) + "/zeroconf/wifi"
         # 2. Assemble data.
         data["sequence"] = str(int(time.time()))
         sub_id = info["sub_id"]
         data["deviceid"] = sub_id
-        data["data"]=	{"ssid": ssid, "password":  password}
+        data["data"] = {"ssid": ssid, "password": password}
         # 3. Call Http_API(postRequest) to send.
         return self.send_data(send_url=url, send_data=data)
 
@@ -371,12 +374,12 @@ class ThreadForQT(QThread):
         data = {}
         # 1. Assembly url.
         url = "http://" + info["ip"] + ":" + \
-            str(info["port"]) + "/zeroconf/ota_unlock"
+              str(info["port"]) + "/zeroconf/ota_unlock"
         # 2. Assemble data.
         data["sequence"] = str(int(time.time()))
         sub_id = info["sub_id"]
         data["deviceid"] = sub_id
-		data["data"]=	{ }
+        data["data"] = {}
         # 3. Call Http_API(postRequest) to send.
         return self.send_data(send_url=url, send_data=data)
 
@@ -400,26 +403,25 @@ class ThreadForQT(QThread):
         data = {}
         # 1. Assembly url.
         url = "http://" + info["ip"] + ":" + \
-            str(info["port"]) + "/zeroconf/ota_flash"
+              str(info["port"]) + "/zeroconf/ota_flash"
         # 2. Assemble data.
         data["sequence"] = str(int(time.time()))
         sub_id = info["sub_id"]
         data["deviceid"] = sub_id
-		data["data"]=	{ }
+        data["data"] = {}
         # 3. Call Http_API(postRequest) to send.
         return self.send_data(send_url=url, send_data=data)
 
-
-    def get_dev_info_api(self,**info):
+    def get_dev_info_api(self, **info):
         """
         get device info 
         """
-        sub_dict=info
-        data={}
-        #把组装好url
-        url="http://"+info["ip"]+":"+str(info["port"])+"/zeroconf/info"
-        #组装好data
-        sub_id=info["sub_id"]
-        data["deviceid"]=sub_id
-        data["data"]=	{ }
+        sub_dict = info
+        data = {}
+        # 把组装好url
+        url = "http://" + info["ip"] + ":" + str(info["port"]) + "/zeroconf/info"
+        # 组装好data
+        sub_id = info["sub_id"]
+        data["deviceid"] = sub_id
+        data["data"] = {}
         return self.send_data(send_url=url, send_data=data)

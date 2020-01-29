@@ -10,14 +10,15 @@ class:
     myDialog: A simple dialog box example
     MainWindow: Used for debugging dialogs
 """
-import sys
-import socket
 import hashlib
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
+import socket
+import sys
+
 from PySide2 import QtCore, QtGui, QtWidgets
-from tcp_server import SeverThreadForQT
+from PySide2.QtWidgets import *
+
 from lan_ewlink_api import *
+from tcp_server import SeverThreadForQT
 
 
 class SetTimeDialog(QDialog):
@@ -98,18 +99,18 @@ class SetTimeDialog(QDialog):
         self.bg1.buttonClicked.connect(self.rbclicked)
 
         grid.addWidget(
-            QLabel(
-                u'Inching duration range is 0:0.5 ~ 59:59.5\n with the interval of 0.5 sec.',
-                parent=self),
-            4,
-            0,
-            2,
-            2)
+                QLabel(
+                        u'Inching duration range is 0:0.5 ~ 59:59.5\n with the interval of 0.5 sec.',
+                        parent=self),
+                4,
+                0,
+                2,
+                2)
         # Create ButtonBox, and the user confirms and cancels
         buttonbox = QDialogButtonBox(parent=self)
         buttonbox.setOrientation(Qt.Horizontal)  # Set to horizontal
         buttonbox.setStandardButtons(
-            QDialogButtonBox.Cancel | QDialogButtonBox.Ok)  # Ok and cancel two buttons
+                QDialogButtonBox.Cancel | QDialogButtonBox.Ok)  # Ok and cancel two buttons
         # Connect the signal to the slot
         buttonbox.accepted.connect(self.accept)
         buttonbox.rejected.connect(self.reject)
@@ -119,7 +120,7 @@ class SetTimeDialog(QDialog):
         layout.addLayout(grid)
         # Put a space object to beautify the layout
         spacer_item = QSpacerItem(
-            20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
+                20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
         layout.addItem(spacer_item)
         # ButtonBox
         layout.addWidget(buttonbox)
@@ -170,7 +171,7 @@ class SetTimeDialog(QDialog):
         """
         input_min = self.minute.text()
         input_sec = self.second.text()
-        if (input_sec.isdigit())and(input_min.isdigit()):
+        if (input_sec.isdigit()) and (input_min.isdigit()):
             min = int(input_min)
             sec = int(input_sec)
             print(min, sec)
@@ -208,19 +209,19 @@ class WIFIDialog(QDialog):
         self.WIFIpassword.setText("password")
         grid.addWidget(self.WIFIpassword, 1, 1, 1, 1)
         grid.addWidget(
-            QLabel(
-                u'Please enter the SSID and password of the new wifi your device will connect.After connected,\n the '
-                u'device will no longer be on this LAN and info in the list will be refreshed in 5 mins.',
-                parent=self),
-            2,
-            0,
-            2,
-            2)
+                QLabel(
+                        u'Please enter the SSID and password of the new wifi your device will connect.After connected,\n the '
+                        u'device will no longer be on this LAN and info in the list will be refreshed in 5 mins.',
+                        parent=self),
+                2,
+                0,
+                2,
+                2)
         # Create ButtonBox, and the user confirms and cancels
         buttonbox = QDialogButtonBox(parent=self)
         buttonbox.setOrientation(Qt.Horizontal)
         buttonbox.setStandardButtons(
-            QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
+                QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
         buttonbox.accepted.connect(self.accept)
         buttonbox.rejected.connect(self.reject)
         # Vertical layout, layout tables and buttons
@@ -229,7 +230,7 @@ class WIFIDialog(QDialog):
         layout.addLayout(grid)
         # Put a space object to beautify the layout
         spacer = QSpacerItem(
-            20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
+                20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
         layout.addItem(spacer)
         # ButtonBox
         layout.addWidget(buttonbox)
@@ -283,13 +284,13 @@ class resultDialog(QDialog):
         buttonbox = QDialogButtonBox(parent=self)
         buttonbox.setOrientation(Qt.Horizontal)
         buttonbox.setStandardButtons(
-            QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
+                QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
         buttonbox.accepted.connect(self.accept)
         buttonbox.rejected.connect(self.reject)
         layout = QVBoxLayout()
         layout.addLayout(grid)
         spacerItem = QSpacerItem(
-            20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
+                20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
         layout.addItem(spacerItem)
         layout.addWidget(buttonbox)
         self.setLayout(layout)
@@ -323,7 +324,7 @@ class myDialog(QDialog):
         buttonbox = QDialogButtonBox(parent=self)
         buttonbox.setOrientation(Qt.Horizontal)
         buttonbox.setStandardButtons(
-            QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
+                QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
         buttonbox.accepted.connect(self.accept)
         buttonbox.rejected.connect(self.reject)
         # Vertical layout, layout tables and buttons
@@ -332,7 +333,7 @@ class myDialog(QDialog):
         layout.addLayout(grid)
         # Put a space object to beautify the layout
         spacerItem = QSpacerItem(
-            20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
+                20, 48, QSizePolicy.Minimum, QSizePolicy.Expanding)
         layout.addItem(spacerItem)
         # ButtonBox
         layout.addWidget(buttonbox)
@@ -405,12 +406,12 @@ class RootDialog(QDialog):
         self.gridLayout.addWidget(self.label_4, 6, 0, 1, 1)
         self.textBrowser = QtWidgets.QTextBrowser(self.gridLayoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred,
-            QtWidgets.QSizePolicy.Preferred)
+                QtWidgets.QSizePolicy.Preferred,
+                QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            self.textBrowser.sizePolicy().hasHeightForWidth())
+                self.textBrowser.sizePolicy().hasHeightForWidth())
         self.textBrowser.setSizePolicy(sizePolicy)
         self.textBrowser.setObjectName("textBrowser")
         self.gridLayout.addWidget(self.textBrowser, 4, 1, 1, 2)
@@ -442,41 +443,43 @@ class RootDialog(QDialog):
 
     def retranslateUi(self):
         self.setWindowTitle(QtWidgets.QApplication.translate(
-            "Dialog", "DIY Flash Firmware TOOL", None, -1))
-        self.pB_OK.setText(
-            QtWidgets.QApplication.translate(
-                "Dialog", "OK", None, -1))
-        self.pB_Cencel.setText(
-            QtWidgets.QApplication.translate(
-                "Dialog", "Cancel", None, -1))
-        self.pB_import_firmware.setText(
-            QtWidgets.QApplication.translate(
-                "Dialog", "Import firmware", None, -1))
-        self.label_3.setText(
-            QtWidgets.QApplication.translate(
-                "Dialog", " Warning ", None, -1))
-        self.label.setText(
-            QtWidgets.QApplication.translate(
-                "Dialog", "Firmware", None, -1))
-        self.label_4.setText(
-            QtWidgets.QApplication.translate(
-                "Dialog", "Progress", None, -1))
-        self.textBrowser.setHtml(
-            QtWidgets.QApplication.translate(
-                "Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-                "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-                "p, li { white-space: pre-wrap; }\n"
-                "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-                "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">Flashing firmware will void your warranty.By clicking \'OK\',you accept voiding the warranty on this device. To avoid bricking, do not power off,restart the device,disconnect it from network, restart LAN router, change IP or port on your PC or close this program during installation. </span></p></body></html>", None, -1))
-        self.label_2.setText(
-            QtWidgets.QApplication.translate(
-                "Dialog", "Device", None, -1))
-        self.pB_get_device.setText(
-            QtWidgets.QApplication.translate(
-                "Dialog", "Flash device list", None, -1))
-        self.label_5.setText(
-            QtWidgets.QApplication.translate(
                 "Dialog", "DIY Flash Firmware TOOL", None, -1))
+        self.pB_OK.setText(
+                QtWidgets.QApplication.translate(
+                        "Dialog", "OK", None, -1))
+        self.pB_Cencel.setText(
+                QtWidgets.QApplication.translate(
+                        "Dialog", "Cancel", None, -1))
+        self.pB_import_firmware.setText(
+                QtWidgets.QApplication.translate(
+                        "Dialog", "Import firmware", None, -1))
+        self.label_3.setText(
+                QtWidgets.QApplication.translate(
+                        "Dialog", " Warning ", None, -1))
+        self.label.setText(
+                QtWidgets.QApplication.translate(
+                        "Dialog", "Firmware", None, -1))
+        self.label_4.setText(
+                QtWidgets.QApplication.translate(
+                        "Dialog", "Progress", None, -1))
+        self.textBrowser.setHtml(
+                QtWidgets.QApplication.translate(
+                        "Dialog",
+                        "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                        "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                        "p, li { white-space: pre-wrap; }\n"
+                        "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+                        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">Flashing firmware will void your warranty.By clicking \'OK\',you accept voiding the warranty on this device. To avoid bricking, do not power off,restart the device,disconnect it from network, restart LAN router, change IP or port on your PC or close this program during installation. </span></p></body></html>",
+                        None, -1))
+        self.label_2.setText(
+                QtWidgets.QApplication.translate(
+                        "Dialog", "Device", None, -1))
+        self.pB_get_device.setText(
+                QtWidgets.QApplication.translate(
+                        "Dialog", "Flash device list", None, -1))
+        self.label_5.setText(
+                QtWidgets.QApplication.translate(
+                        "Dialog", "DIY Flash Firmware TOOL", None, -1))
 
     def fresh_box(self):
         """
@@ -488,7 +491,7 @@ class RootDialog(QDialog):
         print(self.all_sub)
         if len(self.all_sub) <= 0:
             QMessageBox.critical(
-                "Unable to find device, please exit retry", 10000)
+                    "Unable to find device, please exit retry", 10000)
             print("Unable to find device, please exit retry")
         else:
             for x in self.all_sub:
@@ -530,11 +533,11 @@ class RootDialog(QDialog):
             # whether it is a ".bin "file
             if ".bin" not in imgfile:
                 QMessageBox.information(
-                    self,
-                    "ERROR",
-                    "The firmware selected is not a bin file",
-                    QMessageBox.Yes,
-                    QMessageBox.Yes)
+                        self,
+                        "ERROR",
+                        "The firmware selected is not a bin file",
+                        QMessageBox.Yes,
+                        QMessageBox.Yes)
                 return
             #
             if self.get_file_to_work(imgfile):
@@ -552,11 +555,11 @@ class RootDialog(QDialog):
                     print("unknown err")
             else:
                 QMessageBox.information(
-                    self,
-                    "ERROR",
-                    "Firmware file cannot be greater than 508k; The firmware must be Dout",
-                    QMessageBox.Yes,
-                    QMessageBox.Yes)
+                        self,
+                        "ERROR",
+                        "Firmware file cannot be greater than 508k; The firmware must be Dout",
+                        QMessageBox.Yes,
+                        QMessageBox.Yes)
 
     def get_file_to_work(self, bin_file):
         """
@@ -566,7 +569,7 @@ class RootDialog(QDialog):
         try:
             with open(bin_file, 'rb') as file_obj:
                 b = bytearray(file_obj.read())
-                if (b[2] == 3)and(len(b) < 508000):
+                if (b[2] == 3) and (len(b) < 508000):
                     file_obj.seek(0, 0)
                     img = file_obj.read()
                 else:
@@ -589,30 +592,30 @@ class RootDialog(QDialog):
         self.dev_flg = True
         new = "The currently selected device id is" + id
         QMessageBox.information(
-            self,
-            "tips",
-            new,
-            QMessageBox.Yes,
-            QMessageBox.Yes)
+                self,
+                "tips",
+                new,
+                QMessageBox.Yes,
+                QMessageBox.Yes)
         self.sub_id = [id]
 
     def start_root(self):
         # Check if conditions are met
         if not self.file_flg:
             QMessageBox.information(
-                self,
-                "Insufficient conditions",
-                "Missing firmware file！",
-                QMessageBox.Yes,
-                QMessageBox.Yes)
+                    self,
+                    "Insufficient conditions",
+                    "Missing firmware file！",
+                    QMessageBox.Yes,
+                    QMessageBox.Yes)
             return
         if not self.dev_flg:
             QMessageBox.information(
-                self,
-                "Insufficient conditions",
-                "No device selected yet！",
-                QMessageBox.Yes,
-                QMessageBox.Yes)
+                    self,
+                    "Insufficient conditions",
+                    "No device selected yet！",
+                    QMessageBox.Yes,
+                    QMessageBox.Yes)
             return
         # Create a QT thread to transfer firmware to the device
         myport = self.check_port()
@@ -620,7 +623,7 @@ class RootDialog(QDialog):
         # print("Host information：",myname,myaddr,str(myport))
         print("Server initialization complete")
         self.control_server_Thread = SeverThreadForQT(
-            server_port=myport, server_ip=myaddr)
+                server_port=myport, server_ip=myaddr)
         # Lock button
         self.pB_get_device.setDisabled(1)
         self.pB_import_firmware.setDisabled(1)
@@ -705,17 +708,17 @@ class RootDialog(QDialog):
         if result_list[1] is "0":
             # Perform an
             self.control_server_Thread.ota_state_Thread.connect(
-                self.updata_ota)
+                    self.updata_ota)
             self.control_server_Thread.start()
         else:
             # Send unlocking failure (prompt for network connection)(close the
             # server)
             QMessageBox.information(
-                self,
-                "Send unlock failed",
-                "Please check your network connection and retry.！",
-                QMessageBox.Yes,
-                QMessageBox.Yes)
+                    self,
+                    "Send unlock failed",
+                    "Please check your network connection and retry.！",
+                    QMessageBox.Yes,
+                    QMessageBox.Yes)
 
     def getText(self):
         """
@@ -724,7 +727,7 @@ class RootDialog(QDialog):
         :return: str The IP address entered by the user
         """
         text, okPressed = QInputDialog.getText(
-            self, "not find ip ", "Your PC ip:", QLineEdit.Normal, "")
+                self, "not find ip ", "Your PC ip:", QLineEdit.Normal, "")
         if okPressed and text != '':
             print(text)
             return text
@@ -749,62 +752,62 @@ class RootDialog(QDialog):
             if result_num == 0:
                 # Prompt upgrade successful
                 QMessageBox.information(
-                    self,
-                    "Data sent successfully",
-                    "Please wait for the device to restart.\nDo not power off or restart the device manually, \
-                    but you may close this window now. ",
-                    QMessageBox.Yes,
-                    QMessageBox.Yes)
+                        self,
+                        "Data sent successfully",
+                        "Please wait for the device to restart.\nDo not power off or restart the device manually, \
+                        but you may close this window now. ",
+                        QMessageBox.Yes,
+                        QMessageBox.Yes)
             elif result_num == 1:
                 # Prompt upgrade failed
                 QMessageBox.information(
-                    self,
-                    "error",
-                    "Please wait for the device to restart！",
-                    QMessageBox.Yes,
-                    QMessageBox.Yes)
+                        self,
+                        "error",
+                        "Please wait for the device to restart！",
+                        QMessageBox.Yes,
+                        QMessageBox.Yes)
             elif result_num == 404:
                 # Prompt upgrade failed
                 QMessageBox.information(
-                    self,
-                    "error",
-                    "Data download error 404！",
-                    QMessageBox.Yes,
-                    QMessageBox.Yes)
+                        self,
+                        "error",
+                        "Data download error 404！",
+                        QMessageBox.Yes,
+                        QMessageBox.Yes)
             elif result_num == 406:
                 # Prompt upgrade failed
                 QMessageBox.information(
-                    self,
-                    "error",
-                    "Upgrade failed！",
-                    QMessageBox.Yes,
-                    QMessageBox.Yes)
+                        self,
+                        "error",
+                        "Upgrade failed！",
+                        QMessageBox.Yes,
+                        QMessageBox.Yes)
             elif result_num == 409:
                 # Prompt upgrade failed
                 QMessageBox.information(
-                    self,
-                    "error",
-                    "Data verification failed！",
-                    QMessageBox.Yes,
-                    QMessageBox.Yes)
+                        self,
+                        "error",
+                        "Data verification failed！",
+                        QMessageBox.Yes,
+                        QMessageBox.Yes)
             elif result_num == 410:
                 # Prompt upgrade failed
                 QMessageBox.information(
-                    self,
-                    "error",
-                    "Device error！",
-                    QMessageBox.Yes,
-                    QMessageBox.Yes)
+                        self,
+                        "error",
+                        "Device error！",
+                        QMessageBox.Yes,
+                        QMessageBox.Yes)
         elif "ERR" in result_vrg:
             self.pB_Cencel.setDisabled(0)
             QMessageBox.information(
-                self,
-                "!!!!!!!!!!",
-                "Please make sure the connection between the device and your PC is working correctly.\
-                (Don\'t power off or restart the device, close the upgrade window, or change the IP \
-                or port on your PC)！",
-                QMessageBox.Yes,
-                QMessageBox.Yes)
+                    self,
+                    "!!!!!!!!!!",
+                    "Please make sure the connection between the device and your PC is working correctly.\
+                    (Don\'t power off or restart the device, close the upgrade window, or change the IP \
+                    or port on your PC)！",
+                    QMessageBox.Yes,
+                    QMessageBox.Yes)
 
 
 class MainWindow(QMainWindow):
